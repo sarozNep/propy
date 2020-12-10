@@ -1,0 +1,29 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: PropyToken
+    network: mainnet
+    source:
+      address: "0x73b324a353891f50001e2cf808c2c00652b05044"
+      abi: PropyToken
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.2
+      language: wasm/assemblyscript
+      entities:
+        - UpgradeProposal
+        - Transfer
+        - Approval
+      abis:
+        - name: PropyToken
+          file: ./abis/PropyToken.json
+      eventHandlers:
+        - event: UpgradeProposal(address)
+          handler: handleUpgradeProposal
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: Approval(indexed address,indexed address,uint256)
+          handler: handleApproval
+      file: ./src/mapping.ts
